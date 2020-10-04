@@ -58,6 +58,10 @@ os.environ["PYTEST_ADDOPTS"] = os.environ.get("PYTEST_ADDOPTS", "")
 if sys.implementation.name == "cpython":
     tests_require.append("pytest-mypy")
     os.environ["PYTEST_ADDOPTS"] += " --mypy"
+# Typeguard causes problems with Python 3.9.0rc2
+if sys.version_info < (3, 9):
+    tests_require.append("typeguard")
+    os.environ["PYTEST_ADDOPTS"] += " --typeguard-packages=radicale"
 
 setup(
     name="Radicale",
