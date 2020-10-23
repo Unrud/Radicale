@@ -1653,8 +1653,8 @@ class TestMultiFileSystem(BaseFileSystemTest, BaseRequestsMixIn):
         assert answer1 == answer2
         assert os.path.exists(os.path.join(cache_folder, "event1.ics"))
 
-    @pytest.mark.skipif(os.name not in ("nt", "posix"),
-                        reason="Only supported on 'nt' and 'posix'")
+    @pytest.mark.skipif(os.name != "posix" and sys.platform != "win32",
+                        reason="Only supported on 'posix' and 'win32'")
     def test_put_whole_calendar_uids_used_as_file_names(self):
         """Test if UIDs are used as file names."""
         BaseRequestsMixIn.test_put_whole_calendar(self)
@@ -1662,8 +1662,8 @@ class TestMultiFileSystem(BaseFileSystemTest, BaseRequestsMixIn):
             _, answer = self.get("/calendar.ics/%s.ics" % uid)
             assert "\r\nUID:%s\r\n" % uid in answer
 
-    @pytest.mark.skipif(os.name not in ("nt", "posix"),
-                        reason="Only supported on 'nt' and 'posix'")
+    @pytest.mark.skipif(os.name != "posix" and sys.platform != "win32",
+                        reason="Only supported on 'posix' and 'win32'")
     def test_put_whole_calendar_random_uids_used_as_file_names(self):
         """Test if UIDs are used as file names."""
         BaseRequestsMixIn.test_put_whole_calendar_without_uids(self)
@@ -1676,8 +1676,8 @@ class TestMultiFileSystem(BaseFileSystemTest, BaseRequestsMixIn):
             _, answer = self.get("/calendar.ics/%s.ics" % uid)
             assert "\r\nUID:%s\r\n" % uid in answer
 
-    @pytest.mark.skipif(os.name not in ("nt", "posix"),
-                        reason="Only supported on 'nt' and 'posix'")
+    @pytest.mark.skipif(os.name != "posix" and sys.platform != "win32",
+                        reason="Only supported on 'posix' and 'win32'")
     def test_put_whole_addressbook_uids_used_as_file_names(self):
         """Test if UIDs are used as file names."""
         BaseRequestsMixIn.test_put_whole_addressbook(self)
@@ -1685,8 +1685,8 @@ class TestMultiFileSystem(BaseFileSystemTest, BaseRequestsMixIn):
             _, answer = self.get("/contacts.vcf/%s.vcf" % uid)
             assert "\r\nUID:%s\r\n" % uid in answer
 
-    @pytest.mark.skipif(os.name not in ("nt", "posix"),
-                        reason="Only supported on 'nt' and 'posix'")
+    @pytest.mark.skipif(os.name != "posix" and sys.platform != "win32",
+                        reason="Only supported on 'posix' and 'win32'")
     def test_put_whole_addressbook_random_uids_used_as_file_names(self):
         """Test if UIDs are used as file names."""
         BaseRequestsMixIn.test_put_whole_addressbook_without_uids(self)

@@ -17,9 +17,19 @@
 # You should have received a copy of the GNU General Public License
 # along with Radicale.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import TYPE_CHECKING
 
-class ApplicationHeadMixin:
-    def do_HEAD(self, environ, base_prefix, path, user):
+from radicale import types
+from radicale.app.base import ApplicationBase
+
+
+class ApplicationPartHead(ApplicationBase):
+    if TYPE_CHECKING:
+        def do_GET(self, environ: types.WSGIEnviron, base_prefix: str,
+                   path: str, user: str) -> types.WSGIResponse: ...
+
+    def do_HEAD(self, environ: types.WSGIEnviron, base_prefix: str, path: str,
+                user: str) -> types.WSGIResponse:
         """Manage HEAD request."""
         status, headers, _ = self.do_GET(environ, base_prefix, path, user)
         return status, headers, None

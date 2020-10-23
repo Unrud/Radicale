@@ -37,16 +37,16 @@ Leading or ending slashes are trimmed from collection's path.
 import configparser
 import re
 
-from radicale import pathutils, rights
+from radicale import config, pathutils, rights
 from radicale.log import logger
 
 
 class Rights(rights.BaseRights):
-    def __init__(self, configuration):
+    def __init__(self, configuration: config.Configuration) -> None:
         super().__init__(configuration)
-        self._filename = configuration.get("rights", "file")
+        self._filename: str = configuration.get("rights", "file")
 
-    def authorization(self, user, path):
+    def authorization(self, user: str, path: str) -> str:
         user = user or ""
         sane_path = pathutils.strip_path(path)
         # Prevent "regex injection"
@@ -67,7 +67,8 @@ class Rights(rights.BaseRights):
                 user_match = re.fullmatch(user_pattern.format(), user)
                 collection_match = user_match and re.fullmatch(
                     collection_pattern.format(
-                        *map(re.escape, user_match.groups()),
+                        *map(re.escape,  # type: ignore[arg-type]
+                             user_match.groups()),
                         user=escaped_user), sane_path)
             except Exception as e:
                 raise RuntimeError("Error in section %r of rights file %r: "
